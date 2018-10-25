@@ -1,0 +1,19 @@
+
+server:
+  port: 1111
+
+spring:
+  application:
+    name: eurake-server
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    # 以下两项设置为false，作为注册中心，避免注册自己
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    waitTimeInMsWhenSyncEmpty: 0

@@ -1,0 +1,17 @@
+
+server:
+  port: 18084
+
+spring:
+  application:
+    name: activiti-showcase
+  # datasource
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/workflow?characterEncoding=utf8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: sxt7777777
+
+  activiti:
+    check-process-definitions: false
+
