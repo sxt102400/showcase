@@ -1,0 +1,62 @@
+package com.rats.activiti.service;
+
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ * Copyright (C) 2016 rats
+ * <p/>
+ *
+ * @author : rats
+ * @version : v1.0
+ * @since : 2018/10/25
+ */
+@Service
+public class DeploymentClient {
+
+    @Resource
+    private RepositoryService repositoryService;
+
+
+    /**
+     *  deploy
+     */
+    public void deploy() {
+        //根据bpmn文件部署流程
+        Deployment deploy = repositoryService.createDeployment()
+                .addClasspathResource("VacationRequest.bpmn20.xml")
+                .deploy();
+    }
+
+
+    public List<Deployment> queryDeploymentByPage() {
+        List<Deployment> deployments =
+                repositoryService.createDeploymentQuery().listPage(1, 10);
+        return deployments;
+    }
+
+    public Deployment queryDeployment(String deployId) {
+        Deployment deployment =
+                repositoryService.createDeploymentQuery().deploymentId(deployId).singleResult();
+        return deployment;
+    }
+
+    public List<ProcessDefinition>  queryProcessDefinitionByPage() {
+        List<ProcessDefinition> processDefinitions =
+                repositoryService.createProcessDefinitionQuery().listPage(1, 10);
+        return processDefinitions;
+    }
+
+    public ProcessDefinition queryProcessDefinition(String processDefinitionId) {
+        ProcessDefinition processDefinition =
+                repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+        return processDefinition;
+    }
+
+
+}
