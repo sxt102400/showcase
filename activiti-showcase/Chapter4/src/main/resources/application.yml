@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: activiti-showcase
+    name: activiti-activiti
   # datasource
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/workflow?characterEncoding=utf8&useSSL=false

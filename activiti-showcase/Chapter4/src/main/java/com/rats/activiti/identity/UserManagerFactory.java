@@ -1,4 +1,4 @@
-package com.rats.showcase.identity;
+package com.rats.activiti.identity;
 
 import org.activiti.engine.impl.interceptor.CommandContext;
 import org.activiti.engine.impl.interceptor.Session;

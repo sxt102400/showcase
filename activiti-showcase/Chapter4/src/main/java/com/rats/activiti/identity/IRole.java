@@ -1,4 +1,4 @@
-package com.rats.showcase.identity;
+package com.rats.activiti.identity;
 
 import org.activiti.engine.impl.persistence.entity.GroupEntity;
 

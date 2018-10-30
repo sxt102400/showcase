@@ -1,4 +1,4 @@
-package com.rats.showcase.utils;
+package com.rats.activiti.utils;
 
 import org.activiti.engine.impl.Page;
 import org.apache.commons.lang3.StringUtils;
