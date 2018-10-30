@@ -34,7 +34,7 @@ public class ProcessInstanceClient {
      */
     public Map startById(String processDefId, String businessKey, Map<String, Object> variables) {
         ProcessInstance processInstance =
-                this.runtimeService.startProcessInstanceById(processDefId, businessKey, variables);
+                runtimeService.startProcessInstanceById(processDefId, businessKey, variables);
         Map<String, Object> result = new HashMap<>();
         result.put("processId", processInstance.getId());
         result.put("processName", processInstance.getName());
@@ -59,7 +59,7 @@ public class ProcessInstanceClient {
      */
     public Map startByKey(String processDefKey, String businessKey, Map<String, Object> variables) {
         ProcessInstance processInstance =
-                this.runtimeService.startProcessInstanceByKey(processDefKey, businessKey, variables);
+                runtimeService.startProcessInstanceByKey(processDefKey, businessKey, variables);
         Map<String, Object> result = new HashMap<>();
         result.put("processId", processInstance.getId());
         result.put("processName", processInstance.getName());
@@ -81,7 +81,7 @@ public class ProcessInstanceClient {
      * @return
      */
     public Map stop(String processId, String deleteReason) {
-        this.runtimeService.deleteProcessInstance(processId, deleteReason);
+        runtimeService.deleteProcessInstance(processId, deleteReason);
         Map<String, Object> result = new HashMap<>();
         result.put("processId", processId);
         return result;
@@ -95,7 +95,7 @@ public class ProcessInstanceClient {
     public Map queryProcessByPage(Page page) {
         long total = runtimeService.createProcessInstanceQuery().count();
         List<ProcessInstance> processInstances =
-                this.runtimeService.createProcessInstanceQuery().listPage(page.getFirstResult(),page.getMaxResults());
+                runtimeService.createProcessInstanceQuery().listPage(page.getFirstResult(),page.getMaxResults());
         List data = processInstances.stream().map(processInstance -> {
             Map<String,Object> map = new HashMap();
             map.put("processId", processInstance.getId());
@@ -124,7 +124,7 @@ public class ProcessInstanceClient {
      */
     public Map queryProcessAll() {
         List<ProcessInstance> processInstances =
-                this.runtimeService.createProcessInstanceQuery().list();
+                runtimeService.createProcessInstanceQuery().list();
         List<Map<String, Object>> list = processInstances.stream().map(processInstance -> {
             Map<String,Object> map = new HashMap();
             map.put("processId", processInstance.getId());
@@ -152,7 +152,7 @@ public class ProcessInstanceClient {
      */
     public Map queryProcess(String processId) {
         ProcessInstance processInstance =
-                this.runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
+                runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
         Map<String,Object> map = new HashMap();
         map.put("processId", processInstance.getId());
         map.put("processName", processInstance.getName());

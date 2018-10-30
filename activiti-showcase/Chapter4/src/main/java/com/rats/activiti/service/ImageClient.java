@@ -44,7 +44,7 @@ public class ImageClient {
     public void writeResourceDiagram(String processId, OutputStream outputStream) {
         try {
 
-            ProcessInstance processInstance = this.runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
+            ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
 
             // 获取历史流程实例
             HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processId).singleResult();
