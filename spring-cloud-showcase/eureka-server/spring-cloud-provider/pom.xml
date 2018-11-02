@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.rats</groupId>
-    <artifactId>spring-cloud-server</artifactId>
+    <artifactId>spring-cloud-provider</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>spring-cloud-server</name>
-    <description>spring-cloud-server</description>
+    <name>spring-cloud-provider</name>
+    <description>spring-cloud-provider</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
