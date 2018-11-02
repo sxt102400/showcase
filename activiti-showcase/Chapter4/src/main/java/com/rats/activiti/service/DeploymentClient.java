@@ -67,6 +67,26 @@ public class DeploymentClient {
     /**
      * 查询部署流程
      *
+     * @return
+     */
+    public Map queryDeploymentAll() {
+        List<Deployment> deployments = repositoryService.createDeploymentQuery().list();
+        List data = deployments.stream().map(deployment -> {
+            Map<String, Object> obj = new HashMap<>();
+            obj.put("deployId", deployment.getId());
+            obj.put("name", deployment.getName());
+            obj.put("tenantId", deployment.getTenantId());
+            obj.put("deployTime", deployment.getDeploymentTime());
+            return obj;
+        }).collect(Collectors.toList());
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", data);
+        return result;
+    }
+
+    /**
+     * 查询部署流程
+     *
      * @param deployId
      * @return
      */
@@ -79,6 +99,8 @@ public class DeploymentClient {
         result.put("deployTime", deployment.getDeploymentTime());
         return result;
     }
+
+
 
     /**
      * 删除流程部署

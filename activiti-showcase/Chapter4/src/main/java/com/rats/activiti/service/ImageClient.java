@@ -1,5 +1,6 @@
 package com.rats.activiti.service;
 
+import com.rats.activiti.utils.CustomProcessDiagramGenerator;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.SequenceFlow;
@@ -63,7 +64,15 @@ public class ImageClient {
             // 获取流程已发生流转的线ID集合
             List<String> flowIds = this.getExecutedFlows(bpmnModel, historicActivityInstanceList);
             // 使用默认配置获得流程图表生成器，并生成追踪图片字符流
-            ProcessDiagramGenerator processDiagramGenerator = processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
+            ProcessDiagramGenerator processDiagramGenerator;
+
+            boolean useCustomProcessDiagramGenerator  = true;
+            if(useCustomProcessDiagramGenerator) {
+                processDiagramGenerator = new CustomProcessDiagramGenerator();
+            }else {
+                processDiagramGenerator = processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
+            }
+
             InputStream imageStream = processDiagramGenerator.generateDiagram(bpmnModel, "png", executedActivityIdList, flowIds, "宋体", "微软雅黑", "黑体", null, 2.0);
             // 输出图片内容
             byte[] b = new byte[1024];

@@ -47,10 +47,20 @@ public class ProcessInstanceController {
         return processInstanceClient.queryProcessAll();
     }
 
+    @GetMapping("/resourceDiagram/{deployId}")
+    public void resourceDiagram(HttpServletResponse response, @PathVariable String deployId){
+        try {
+            modelClient.writeResourceDiagram(deployId,response.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @GetMapping("/processImg/{processId}")
     public void processImg(HttpServletResponse response, @PathVariable String processId){
         try {
-            modelClient.writeResourceDiagram(processId,response.getOutputStream());
+            modelClient.writeProcessImg(processId,response.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }

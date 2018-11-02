@@ -33,6 +33,11 @@ public class DeploymentController {
         return deploymentClient.deploy("bpmn/test.bpmn20.xml");
     }
 
+    @GetMapping("/deploy/list")
+    public Map deploylist() {
+        return deploymentClient.queryProcessDefinitionAll();
+    }
+
     @GetMapping("/deploy/{deployId}")
     public Map deploy(@PathVariable String deployId) {
         return deploymentClient.queryDeployment(deployId);

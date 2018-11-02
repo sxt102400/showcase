@@ -1,5 +1,6 @@
 package com.rats.activiti.service;
 
+import com.rats.activiti.utils.CustomProcessDiagramGenerator;
 import org.activiti.bpmn.model.*;
 import org.activiti.bpmn.model.Process;
 import org.activiti.engine.*;
@@ -142,8 +143,29 @@ public class ModelClient {
         getNextNode(flowElements, flowElement, map, userTasks);
     }    */
 
+    public void writeResourceDiagram(String deploymentId, OutputStream outputStream) throws IOException {
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).singleResult();
+        InputStream imageStream =  repositoryService.getProcessDiagram(processDefinition.getId());
 
-    public void writeResourceDiagram(String processInstanceId, OutputStream outputStream) throws IOException {
+       /* BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinition.getId());
+        ProcessDiagramGenerator processDiagramGenerator;
+        boolean useCustomProcessDiagramGenerator  = false;
+        if(useCustomProcessDiagramGenerator) {
+            processDiagramGenerator = new CustomProcessDiagramGenerator();
+        }else {
+            processDiagramGenerator = processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
+        }
+        InputStream imageStream = processDiagramGenerator.generatePngDiagram(bpmnModel);*/
+        // 输出图片内容
+        byte[] b = new byte[1024];
+        int len;
+        while ((len = imageStream.read(b, 0, 1024)) != -1) {
+            outputStream.write(b, 0, len);
+        }
+    }
+
+
+    public void writeProcessImg(String processInstanceId, OutputStream outputStream) throws IOException {
 
         if (StringUtils.isNotBlank(processInstanceId)) {
 
@@ -160,10 +182,15 @@ public class ModelClient {
 
             List<HistoricProcessInstance> historicFinishedProcessInstances = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).finished()
                     .list();
-            ProcessDiagramGenerator processDiagramGenerator = null;
 
 
-            processDiagramGenerator = processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
+            ProcessDiagramGenerator processDiagramGenerator;
+            boolean useCustomProcessDiagramGenerator  = false;
+            if(useCustomProcessDiagramGenerator) {
+                processDiagramGenerator = new CustomProcessDiagramGenerator();
+            }else {
+                processDiagramGenerator = processEngine.getProcessEngineConfiguration().getProcessDiagramGenerator();
+            }
 
             BpmnModel bpmnModel = repositoryService.getBpmnModel(historicProcessInstance.getProcessDefinitionId());
             // 高亮流程已发生流转的线id集合

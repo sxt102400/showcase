@@ -36,6 +36,7 @@ public class ProcessInstanceClient {
         ProcessInstance processInstance =
                 runtimeService.startProcessInstanceById(processDefId, businessKey, variables);
         Map<String, Object> result = new HashMap<>();
+
         result.put("processId", processInstance.getId());
         result.put("processName", processInstance.getName());
         result.put("deploymentId", processInstance.getDeploymentId());
@@ -45,7 +46,7 @@ public class ProcessInstanceClient {
         result.put("processDefName", processInstance.getProcessDefinitionName());
         result.put("startTime", processInstance.getStartTime());
         result.put("description", processInstance.getDescription());
-        result.put("actId", processInstance.getActivityId());
+        result.put("activityId", processInstance.getActivityId());
         return result;
     }
 
@@ -70,9 +71,10 @@ public class ProcessInstanceClient {
         result.put("processDefName", processInstance.getProcessDefinitionName());
         result.put("startTime", processInstance.getStartTime());
         result.put("description", processInstance.getDescription());
-        result.put("actId", processInstance.getActivityId());
+        result.put("activityId", processInstance.getActivityId());
         return result;
     }
+
     /**
      * 停止并删除执行流程实例
      *
@@ -87,6 +89,25 @@ public class ProcessInstanceClient {
         return result;
     }
 
+
+    /**
+     * 挂起流程实例
+     *
+     * @param processId
+     */
+    public void suspend(String processId) {
+        runtimeService.suspendProcessInstanceById(processId);
+    }
+
+    /**
+     * 恢复流程实例
+     *
+     * @param processId
+     */
+    public void resumeProcessInstance(String processId) {
+        runtimeService.activateProcessInstanceById(processId);
+    }
+
     /**
      * 查询流程实例列表
      *
@@ -95,9 +116,9 @@ public class ProcessInstanceClient {
     public Map queryProcessByPage(Page page) {
         long total = runtimeService.createProcessInstanceQuery().count();
         List<ProcessInstance> processInstances =
-                runtimeService.createProcessInstanceQuery().listPage(page.getFirstResult(),page.getMaxResults());
+                runtimeService.createProcessInstanceQuery().listPage(page.getFirstResult(), page.getMaxResults());
         List data = processInstances.stream().map(processInstance -> {
-            Map<String,Object> map = new HashMap();
+            Map<String, Object> map = new HashMap();
             map.put("processId", processInstance.getId());
             map.put("processName", processInstance.getName());
             map.put("deploymentId", processInstance.getDeploymentId());
@@ -107,7 +128,7 @@ public class ProcessInstanceClient {
             map.put("processDefName", processInstance.getProcessDefinitionName());
             map.put("startTime", processInstance.getStartTime());
             map.put("description", processInstance.getDescription());
-            map.put("actId", processInstance.getActivityId());
+            map.put("activityId", processInstance.getActivityId());
             return map;
         }).collect(Collectors.toList());
         Map<String, Object> result = new HashMap<>();
@@ -126,7 +147,7 @@ public class ProcessInstanceClient {
         List<ProcessInstance> processInstances =
                 runtimeService.createProcessInstanceQuery().list();
         List<Map<String, Object>> list = processInstances.stream().map(processInstance -> {
-            Map<String,Object> map = new HashMap();
+            Map<String, Object> map = new HashMap();
             map.put("processId", processInstance.getId());
             map.put("processName", processInstance.getName());
             map.put("deploymentId", processInstance.getDeploymentId());
@@ -153,7 +174,7 @@ public class ProcessInstanceClient {
     public Map queryProcess(String processId) {
         ProcessInstance processInstance =
                 runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
-        Map<String,Object> map = new HashMap();
+        Map<String, Object> map = new HashMap();
         map.put("processId", processInstance.getId());
         map.put("processName", processInstance.getName());
         map.put("deploymentId", processInstance.getDeploymentId());
