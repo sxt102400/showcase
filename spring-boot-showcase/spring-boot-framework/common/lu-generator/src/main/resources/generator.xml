@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//rats.org//DTD Lu Generator Configuration 1.0//EN"
+        "http://rats.org/dtd/lu-generator-config_1_0.dtd">
+<configuration>
+
+    <properties resource="jdbc.properties"/>
+
+    <properties>
+
+        <!-- 工程和模板配置 -->
+        <property name="projectName" value="myproject"></property>
+        <property name="projectDir" value="../"></property>
+        <property name="templateDir" value="template/test"></property>
+		<property name="override" value="false"></property>
+    </properties>
+
+    <!-- jdbc配置 -->
+    <jdbcConnection driverClassName="${jdbc.driverClassName}"
+                    url="${jdbc.url}"
+                    username="${jdbc.username}"
+                    password="${jdbc.password}">
+    </jdbcConnection>
+
+
+    <!-- 模板文件配置，此处按需自己定制编写 -->
+    <templates>
+        <template name="controller" packageName="com.sxt.controller" fileName="${className}Controller.java"/>
+        <template name="service" packageName="com.sxt.service" fileName="${className}Service.java"/>
+        <template name="serviceImpl" packageName="com.sxt.service.impl" fileName="${className}ServiceImpl.java"/>
+        <template name="dao" packageName="com.sxt.dao" fileName="${className}Dao.java"/>
+        <template name="mapper" packageName="gen.mapper" fileName="${className}mapper.java"/>
+        <template name="entity" packageName="gen.entity" fileName="${className}.java"/>
+        <template name="xmlMapper" packageName="gen.xml" fileName="${className}Mapper.xml" type="xml"/>
+    </templates>
+
+    <!-- 模块配置 -->
+    <modules>
+        <module name="lu-project"
+                moduleDir=""
+                sources="src/main/java"
+                resources="src/main/resources"
+                templates="entity,mapper,dao,service,serviceImpl,controller,xmlMapper"
+        />
+    </modules>
+
+
+    <!-- 配置需要生成代码的表，tableName：表名; className：类名 ,subPackageName: 子包名称-->
+    <tables>
+        <table tableName="t_sys_user" className="SysUser"></table>
+        <table tableName="test" className="Test">
+            <!-- all -->
+            <columnOverride column="testName"
+                            field="username"
+                            javaType="java.lang.Long"
+                            jdbcType="VARCHAR"
+                            ignore="true"/>
+
+            <!-- Override，覆盖的字段 -->
+            <columnOverride column="id" field="id"/>
+            <columnOverride column="type" field="atype"/>
+            <columnOverride column="username" field="ausername"/>
+            <columnOverride column="age" field="age"/>
+
+            <!-- Ignore，忽略的字段 -->
+            <columnIgnore column="password" />
+            <columnIgnore column="status"/>
+
+        </table>
+    </tables>
+
+
+
+</configuration>
