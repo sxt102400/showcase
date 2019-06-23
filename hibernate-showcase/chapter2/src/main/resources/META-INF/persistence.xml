@@ -1,0 +1,40 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+
+    <persistence-unit name="CRM">
+        <description>Persistence unit for Hibernate User Guide</description>
+
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Names the annotated entity class -->
+        <class>com.rats.entity.User</class>
+
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- 配置连接数据库的基本信息-->
+            <property name="javax.persistence.jdbc.driver"  value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url"    value="jdbc:mysql://localhost:3306/hibernate" />
+            <property name="javax.persistence.jdbc.user"    value="rats" />
+            <property name="javax.persistence.jdbc.password"      value="123456" />
+
+            <!--所使用的数据库方言 MySQL5Dialect-->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+
+            <!--删除/重建SQL架构-->
+            <property name = "javax.persistence.schema-generation.database.action"
+                    value = "create"/>
+
+            <!-- 指定自动生成数据表的策略 -->
+            <property name="hibernate.hbm2ddl.auto"  value="update" />
+
+            <!-- 执行操作时是否在控制台打印 SQL -->
+            <property name="hibernate.show_sql"    value="true" />
+            <property name="hibernate.use_sql_comments"   value="true" />
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
