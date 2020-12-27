@@ -67,12 +67,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 //修改Spring Security默认的登陆界面
                 //.formLogin(Customizer.withDefaults())
-                 .formLogin(
-                         formLogin -> formLogin.loginPage("/login")
-                                 .loginProcessingUrl("/loginAjax").usernameParameter("username").passwordParameter("password")
-                                 .successHandler(new MyAuthenticationSuccessHandler())
-                                 .failureHandler(new MyAuthenticationFailureHandler()).permitAll()
-                 )
+                .formLogin(
+                        formLogin -> formLogin.loginPage("/login")
+                                .loginProcessingUrl("/loginAjax").usernameParameter("username").passwordParameter("password")
+                                .successHandler(new MyAuthenticationSuccessHandler())
+                                .failureHandler(new MyAuthenticationFailureHandler()).permitAll()
+                )
                 //登出
                 .logout(logout -> logout.logoutUrl("/logout").permitAll())
                 //过滤器
@@ -83,22 +83,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     static class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-
         @Override
-        public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-            httpServletResponse.setContentType("application/json;charset=utf-8");
-            PrintWriter out = httpServletResponse.getWriter();
-            out.write("{\"code\":0,\"isLogin\":true,\"msg\":\"登录成功\"}");
+        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+            if (isAjax(request)) {
+                response.setContentType("application/json;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.write("{\"code\":0,\"isLogin\":true,\"msg\":\"登录成功\"}");
+            }
         }
     }
 
     static class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
         @Override
         public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
-            response.setContentType("application/json;charset=utf-8");
-            PrintWriter out = response.getWriter();
-            out.write("{\"code\":1,\"isLogin\":false,\"msg\":\"登录失败\"}");
+            if (isAjax(request)) {
+                response.setContentType("application/json;charset=utf-8");
+                PrintWriter out = response.getWriter();
+                out.write("{\"code\":1,\"isLogin\":false,\"msg\":\"登录失败\"}");
+            }
         }
+    }
+
+    static boolean isAjax(HttpServletRequest request) {
+        return (request.getHeader("X-Requested-With") != null
+                && "XMLHttpRequest".equals(request.getHeader("X-Requested-With")));
     }
 
 }
