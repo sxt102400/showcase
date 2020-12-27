@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <title>login</title>
+</head>
+<body>
+<h1>Login</h1>
+<form action="" method="post">
+    <table>
+        <tr>
+            <td>用户名</td>
+            <td><input type="text" id="username"  name="username" placeholder="请输入用户名" class="input" ></td>
+            <td><span class="note"></span></td>
+        </tr>
+        <tr>
+            <td>密码</td>
+            <td><input type="password" id="password"  name="password" class="input"></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="login" value="提交"> </td>
+        </tr>
+        <tr>
+            <td><span id="note" class="note"></span></td>
+        </tr>
+    </table>
+</form>
+</body>
+
+<script type="text/javascript">
+    document.getElementById('login').onclick = function () {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        document.getElementById('note').innerHTML = '验证中……';
+        var xhr = new XMLHttpRequest();
+        xhr.open('post', '/loginAjax',true);
+        xhr.setRequestHeader('content-type', "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.status == 200 && xhr.readyState == 4) {
+                console.log(xhr.responseText);
+                var data = JSON.parse(xhr.responseText);
+                if(data.isLogin) {
+                    document.getElementById('note').innerHTML = data.msg;
+                } else{
+                    document.getElementById('note').innerHTML = data.msg;
+                }
+            }
+        };
+        xhr.send("username=" +username+"&password="+password);
+        return false;
+    };
+</script>
+
+</html>

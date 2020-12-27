@@ -1,5 +1,7 @@
 package com.shawn.controller;
 
+import com.shawn.auth.bean.SysUser;
+import com.shawn.auth.dao.SysUserDao;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -9,14 +11,14 @@ import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/")
-public class SecurityController {
+public class LoginController {
 
-    @RequestMapping(value = "/hello")
+    @RequestMapping(value = "/login")
     public String hello() {
-        return "hello";
+        return "login";
     }
 
-    @RequestMapping(value = "/ajaxLogin")
+    @RequestMapping(value = "/loginAjax")
     @ResponseBody
     public Map login() {
         Map result = new HashMap<>();

@@ -1,9 +1,6 @@
 package com.shawn.tomcat;
 
 import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.catalina.core.AprLifecycleListener;
-import org.apache.catalina.core.StandardServer;
 import org.apache.catalina.startup.Tomcat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +11,9 @@ public class BootApplication {
 
     private int port = 8080;
     private String contextPath = "";
-    private static Logger logger= LoggerFactory.getLogger(BootApplication.class);
+    private static Logger logger = LoggerFactory.getLogger(BootApplication.class);
 
-    public void prepare(){
+    public void prepare() {
         String osName = System.getProperties().getProperty("os.name");
         if (osName.toLowerCase().contains("windows")) {
             String path = BootApplication.class.getResource("/").getPath() + "/webapps";
@@ -29,7 +26,7 @@ public class BootApplication {
 
     public void start() throws Exception {
 
-        try{
+        try {
             logger.info("tomcat开始启动");
             // 设置端口
             Tomcat tomcat = new Tomcat();
@@ -43,15 +40,16 @@ public class BootApplication {
             ctx.setRequestCharacterEncoding("UTF-8");
 
             tomcat.start();
-            logger.info("tomcat启动成功，端口:{}",port);
+            logger.info("tomcat启动成功，端口:{}", port);
             tomcat.getServer().await();
 
-        }catch (Exception e) {
-            logger.error("tomcat启动失败，",e);
+        } catch (Exception e) {
+            logger.error("tomcat启动失败，", e);
         }
 
 
     }
+
     public static void main(String[] args) throws Exception {
         BootApplication application = new BootApplication();
         application.start();
