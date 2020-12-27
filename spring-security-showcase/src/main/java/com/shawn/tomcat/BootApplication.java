@@ -5,24 +5,12 @@ import org.apache.catalina.startup.Tomcat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 
 public class BootApplication {
 
     private int port = 8080;
     private String contextPath = "";
     private static Logger logger = LoggerFactory.getLogger(BootApplication.class);
-
-    public void prepare() {
-        String osName = System.getProperties().getProperty("os.name");
-        if (osName.toLowerCase().contains("windows")) {
-            String path = BootApplication.class.getResource("/").getPath() + "/webapps";
-            File file = new File(path);
-            if (!file.exists()) {
-                file.mkdir();
-            }
-        }
-    }
 
     public void start() throws Exception {
 
